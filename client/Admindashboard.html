@@ -13,61 +13,56 @@
   <div class="table-container">
     <table>
       <tr>
-        <th>Sr no</th>
         <th>Semester</th>
         <th>Status</th>
         <th>Send Result</th>
       </tr>
-      <tr>
+      <tr class="result" id="1">
         <td>1</td>
-        <td>1st</td>
         <td>Not Declared</td>
-        <td> <button type="send" class="btn2">Send</button></td>
+        <td> <button disabled type="send" class="btn2">Send</button></td>
       </tr>
-      <tr>
+      <tr class="result" id="2">
         <td>2</td>
-        <td>2nd</td>
-        <td>Declared</td>
-        <td> <button type="send" class="btn2">Send</button></td>
+        <td>Not Declared</td>
+        <td> <button disabled type="send" class="btn2">Send</button></td>
       </tr>
-      <tr>
+      <tr class="result" id="3">
         <td>3</td>
-        <td>3rd</td>
         <td>Not Declared</td>
-        <td> <button type="send" class="btn2">Send</button></td>
+        <td> <button disabled type="send" class="btn2">Send</button></td>
       </tr>
-      <tr>
+      <tr class="result" id="4">
         <td>4</td>
-        <td>4td</td>
-        <td>Declared</td>
-        <td> <button type="send" class="btn2">Send</button></td>
-      </tr>
-      <tr>
-        <td>5</td>
-        <td>5td</td>
-        <td> Not Declared</td>
-        <td> <button type="send" class="btn2">Send</button></td>
-      </tr>
-      <tr>
-        <td>6</td>
-        <td>6td</td>
-        <td>Declared</td>
-        <td> <button type="send" class="btn2">Send</button></td>
-      </tr>
-      <tr>
-        <td>7</td>
-        <td>7td</td>
         <td>Not Declared</td>
-        <td> <button type="send" class="btn2">Send</button></td>
+        <td> <button disabled type="send" class="btn2">Send</button></td>
       </tr>
-      <tr>
+      <tr class="result" id="5">
+        <td>5</td>
+        <td> Not Declared</td>
+        <td> <button disabled type="send" class="btn2">Send</button></td>
+      </tr>
+      <tr class="result" id="6">
+        <td>6</td>
+        <td>Not Declared</td>
+        <td> <button disabled type="send" class="btn2">Send</button></td>
+      </tr>
+      <tr class="result" id="7">
+        <td>7</td>
+        <td>Not Declared</td>
+        <td> <button disabled type="send" class="btn2">Send</button></td>
+      </tr>
+      <tr class="result" id="8">
         <td>8</td>
-        <td>8td</td>
-        <td>Declared</td>
-        <td> <button type="send" class="btn2">Send</button></td>
+        <td>Not Declared</td>
+        <td> <button disabled type="send" class="btn2">Send</button></td>
       </tr>
     </table>
   </div>
+  <script src="./scripts/api.js"></script>
+  <script>
+    getResultData();
+  </script>
 </body>
 
 </html>

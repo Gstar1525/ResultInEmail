@@ -11,7 +11,7 @@ app.post("/adminlogin", adminLogin)
 app.post("/studentlogin", studentLogin)
 app.post("/register", register)
 app.get("/result", result)
-app.get("/sendmail", sendMail)
+app.post("/sendmail", sendMail)
 app.listen(port, () => {
-    console.log(`Listening at http://localhost:${5000}`);
+    console.log(`Listening at http://localhost:${port}`);
 })

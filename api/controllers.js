@@ -12,11 +12,9 @@ const adminLogin = (req, res) => {
 }
 
 const studentLogin = (req, res) => {
-    const { email, pass } = req.body
+    const { enrollnmentID, pass } = req.body
     const user = data.user
-    console.log(email, pass);
-    // console.log(user.student);
-    if (user.student[email] && user.student[email].password == pass) {
+    if (user.student[enrollnmentID] && user.student[enrollnmentID].password == pass) {
         res.json({ message: `Authenticated`, result: true })
     } else {
         res.send({ message: 'No user found', result: false })
@@ -24,16 +22,22 @@ const studentLogin = (req, res) => {
 }
 
 const register = (req, res) => {
-    const { email } = req.body
-    data.user.student[email] = req.body
-    res.send({ success: true, email: data.user.student[email].email })
+    const { enrollnmentID } = req.body
+    data.user.student[enrollnmentID] = req.body
+    res.send({ success: true, enrollnmentID: data.user.student[enrollnmentID].email })
 }
 
 const result = (_, res) => {
-    res.json(data.result)
+    res.json(Object.keys(data.result).filter(key => Object.keys(data.result[key]).length !== 0 ))
 }
 
-const sendMail = async (_, res) => {
+const sendMail = async (req, res) => {
+    const { sem } = req.body
+    let { result, user } = data
+    const { student } = user
+
+    result = result[parseInt(sem)]
+
     let transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
         port: 587,
@@ -44,17 +48,21 @@ const sendMail = async (_, res) => {
         },
     });
 
-    let info = await transporter.sendMail({
-        from: 'gstar1525@gmail.com',
-        to: "pranjalibramhankar14@gmail.com",
-        subject: "RTMNU Marks 2",
-        text: "Hello world?",
-        html: `<p>${JSON.stringify(data.result[3][200200248])}</p>`,
-    });
-
-    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-    console.log("Message sent: %s", info.messageId);
-    res.send(`<p>${JSON.stringify(data.result[3][200200248])}</p>`)
+    for (const [enrollnmentID, res] of Object.entries(result)) {
+        console.log(student[enrollnmentID].email);
+        console.log(res);
+        let info = await transporter.sendMail({
+            from: 'gstar1525@gmail.com',
+            to: student[enrollnmentID].email,
+            subject: "RTMNU Result In Email Test 3",
+            text: "Hello world?",
+            html: `<p>${JSON.stringify(res)}</p>`,
+        });
+    
+        console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+        console.log("Message sent: %s", info.messageId);
+    }
+    res.send(`<p>${JSON.stringify(data.result[parseInt(sem)])}</p>`)
 }
 
 module.exports = { studentLogin, adminLogin, result, register, sendMail }
