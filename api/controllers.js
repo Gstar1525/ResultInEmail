@@ -43,8 +43,8 @@ const sendMail = async (req, res) => {
         port: 587,
         secure: false,
         auth: {
-            user: "gstar1525@gmail.com",
-            pass: process.env.pass,
+            user: process.env.email,
+            pass: process.env.password,
         },
     });
 

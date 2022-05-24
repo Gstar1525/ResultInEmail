@@ -9,11 +9,18 @@
 npm install
 ```
 
-2. run server by running the following command in "api" folder, sever will run on port 5000. (.env file needed in root of "api" folder with app password for admin email for send email functionality to work.)
+2. create a ".env" file in root of "api" folder with following variables having email and app password(obtained from your email provider). 
+
+```bash
+email = "example@gmail.com"
+password = "password123"
+```
+
+3. run server by running the following command in "api" folder, sever will run on port 5000.
 
 ```bash
 npm start
 ```
 
 
-3. open index.html file in "client" folder using live-server.
+4. open index.html file in "client" folder using live-server.
