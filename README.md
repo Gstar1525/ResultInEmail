@@ -9,11 +9,11 @@
 npm install
 ```
 
-2. run server by running the following command in server folder, sever will run on port 5000.
+2. run server by running the following command in "api" folder, sever will run on port 5000.
 
 ```bash
 npm start
 ```
 
 
-3. open index.html file in live-server
+3. open index.html file in "client" folder using live-server
