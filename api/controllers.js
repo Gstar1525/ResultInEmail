@@ -28,7 +28,7 @@ const register = (req, res) => {
 }
 
 const result = (_, res) => {
-    res.json(Object.keys(data.result).filter(key => Object.keys(data.result[key]).length !== 0 ))
+    res.json(Object.keys(data.result).filter(key => Object.keys(data.result[key]).length !== 0))
 }
 
 const sendMail = async (req, res) => {
@@ -48,21 +48,51 @@ const sendMail = async (req, res) => {
         },
     });
 
-    for (const [enrollnmentID, res] of Object.entries(result)) {
-        console.log(student[enrollnmentID].email);
-        console.log(res);
+    for (const [enrollnmentID, rslt] of Object.entries(result)) {
+        
+        const style = `style="border: 2px black solid; padding: 8px;"`
+        let rows = `
+        <tr ${style}>
+        <th ${style}>Subject</th>
+        <th ${style}>Total Marks</th>
+        <th ${style}>Marks</th>
+        </tr>
+        `
+        rslt.forEach(row => {
+            rows += getRow(style, row)
+        });
+
+        const mail = `
+            <table style="border-collapse: collapse; text-align: center;">
+            <tbody>
+            ${rows}
+            </tbody>
+            </table>
+        `
+
         let info = await transporter.sendMail({
             from: 'gstar1525@gmail.com',
             to: student[enrollnmentID].email,
-            subject: "RTMNU Result In Email Test 3",
+            subject: "RTMNU Result In Email Test",
             text: "Hello world?",
-            html: `<p>${JSON.stringify(res)}</p>`,
+            html: mail,
         });
-    
+
+        console.log(student[enrollnmentID].email);
         console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
         console.log("Message sent: %s", info.messageId);
     }
     res.send(`<p>${JSON.stringify(data.result[parseInt(sem)])}</p>`)
+}
+
+const getRow = (style, { name, totalmarks, marks }) => {
+    return `
+        <tr ${style}>
+            <td ${style}>${name}</td>
+            <td ${style}>${totalmarks}</td>
+            <td ${style}>${marks}</td>\
+        </tr>
+    `
 }
 
 module.exports = { studentLogin, adminLogin, result, register, sendMail }
