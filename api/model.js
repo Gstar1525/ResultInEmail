@@ -7,79 +7,90 @@ const user = {
     },
     student: {
         "200200248": {
+            name: "pranjali bramhankar",
             email: "pranjalibramhankar14@gmail.com",
             password: "student@123",
-            enrollnmentID: "200200248",
+            enrollmentID: "200200248",
             semester: "2",
             year: "1"
         },
         "200200249": {
+            name: "amisha jangilwar",
             email: "amishajangilwar@gmail.com",
             password: "student@123",
-            enrollnmentID: "200200249",
+            enrollmentID: "200200249",
             semester: "2",
             year: "1"
         },
         "200200250": {
+            name: "gourav kolhatkar",
             email: "work.gouravk@gmail.com",
             password: "student@123",
-            enrollnmentID: "200200250",
+            enrollmentID: "200200250",
             semester: "2",
             year: "1"
         },
         "200200251": {
+            name: "sagar",
             email: "sagar@gmail.com",
             password: "student@123",
-            enrollnmentID: "200200251",
+            enrollmentID: "200200251",
             semester: "4",
             year: "2"
         },
         "200200252": {
+            name: "ninad",
             email: "ninad@gmail.com",
             password: "student@123",
-            enrollnmentID: "200200252",
+            enrollmentID: "200200252",
             semester: "4",
             year: "2"
         },
         "200200253": {
+            name: "ninja",
             email: "ninja@gmail.com",
             password: "student@123",
-            enrollnmentID: "200200253",
+            enrollmentID: "200200253",
             semester: "6",
             year: "3"
         },
         "200200254": {
+            name: "saurabh",
             email: "saurabh@gmail.com",
             password: "student@123",
-            enrollnmentID: "200200254",
+            enrollmentID: "200200254",
             semester: "6",
             year: "3"
         },
         "200200255": {
+            name: "chakku",
             email: "chakku@gmail.com",
             password: "student@123",
-            enrollnmentID: "200200255",
+            enrollmentID: "200200255",
             semester: "8",
             year: "4"
         },
         "200200256": {
+            name: "roshan",
             email: "roshan@gmail.com",
             password: "student@123",
-            enrollnmentID: "200200256",
+            enrollmentID: "200200256",
             semester: "8",
             year: "4"
         },
         "200200257": {
+            name: "utkarsha",
             email: "utkarsha@gmail.com",
             password: "student@123",
-            enrollnmentID: "200200257",
+            enrollmentID: "200200257",
             semester: "8",
             year: "4"
         },
         "200200258": {
+            name: "utkarsh",
             email: "utkarsh@gmail.com",
             password: "student@123",
-            enrollnmentID: "200200257",
+            enrollmentID: "200200257",
             semester: "1",
             year: "1"
         }

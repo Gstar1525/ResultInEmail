@@ -30,7 +30,7 @@ const studentLogin = async (event) => {
             'Accept': 'application/json',
         },
         body: JSON.stringify({
-            enrollnmentID: credentials.enrollnmentID,
+            enrollmentID: credentials.enrollmentID,
             pass: credentials.password
         }),
         method: "POST",
@@ -38,6 +38,7 @@ const studentLogin = async (event) => {
 
     const data = await response.json()
     if (data.result) {
+        sessionStorage.setItem("enrollmentID", credentials.enrollmentID)
         window.location.href = "./Studentdashboard.html";
         console.log(data);
     } else {
@@ -55,9 +56,10 @@ const register = async (event) => {
             'Accept': 'application/json',
         },
         body: JSON.stringify({
+            name: credentials.name,
             email: credentials.email,
             password: credentials.password,
-            enrollnmentID: credentials.enrollnmentID,
+            enrollmentID: credentials.enrollmentID,
             semester: credentials.semester,
             year: credentials.year
         }),
@@ -65,6 +67,7 @@ const register = async (event) => {
     })
     const data = await response.json()
     if (data.success) {
+        sessionStorage.setItem("enrollmentID", credentials.enrollmentID)
         window.location.href = "./Studentdashboard.html";
         console.log(data.email);
     } else {

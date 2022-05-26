@@ -12,20 +12,19 @@
 <body>
 
     <div class="StudentDash">
-
-        <form action="" method="get">
+        <form method="post" name="studentDetails" onsubmit="update(event)">
             <h2>Student Dashboard</h2>
-            <input type="text" class="input-box" placeholder="Your name" required><br>
-            <input type="enrollment number" class="input-box" placeholder="Your enrollment number" required><br>
-            <input type="email" class="input-box" placeholder="Your email Id" required><br>
-            <input type="password" class="input-box" placeholder="Password" required><br>
-            <input type="text" class="input-box" placeholder="Semester" required><br>
-            <input type="text" class="input-box" placeholder="Year" required><br>
-
-            <button type="submit" class="submit-btn"> Submit</button><br>
-
+            <input name="name" type="text" class="input-box" placeholder="Name" required><br>
+            <input readonly name="enrollmentID" type="text" class="input-box" placeholder="Enrollment Number" required><br>
+            <input name="email" type="email" class="input-box" placeholder="Email" required><br>
+            <input name="password" type="password" class="input-box" placeholder="Password" required><br>
+            <input name="semester" type="text" class="input-box" placeholder="Semester" required><br>
+            <input name="year" type="text" class="input-box" placeholder="Year" required><br>
+            <button type="submit" class="submit-btn">Update</button><br>
         </form>
     </div>
+
+    <script src="./scripts/dashboardData.js"></script>
 </body>
 
 </html>

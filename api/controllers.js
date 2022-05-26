@@ -12,9 +12,9 @@ const adminLogin = (req, res) => {
 }
 
 const studentLogin = (req, res) => {
-    const { enrollnmentID, pass } = req.body
+    const { enrollmentID, pass } = req.body
     const user = data.user
-    if (user.student[enrollnmentID] && user.student[enrollnmentID].password == pass) {
+    if (user.student[enrollmentID] && user.student[enrollmentID].password == pass) {
         res.json({ message: `Authenticated`, result: true })
     } else {
         res.send({ message: 'No user found', result: false })
@@ -22,9 +22,9 @@ const studentLogin = (req, res) => {
 }
 
 const register = (req, res) => {
-    const { enrollnmentID } = req.body
-    data.user.student[enrollnmentID] = req.body
-    res.send({ success: true, enrollnmentID: data.user.student[enrollnmentID].email })
+    const { enrollmentID } = req.body
+    data.user.student[enrollmentID] = req.body
+    res.send({ success: true, enrollmentID: data.user.student[enrollmentID].email })
 }
 
 const result = (_, res) => {
@@ -48,8 +48,8 @@ const sendMail = async (req, res) => {
         },
     });
 
-    for (const [enrollnmentID, rslt] of Object.entries(result)) {
-        
+    for (const [enrollmentID, rslt] of Object.entries(result)) {
+
         const style = `style="border: 2px black solid; padding: 8px;"`
         let rows = `
         <tr ${style}>
@@ -72,17 +72,28 @@ const sendMail = async (req, res) => {
 
         let info = await transporter.sendMail({
             from: 'gstar1525@gmail.com',
-            to: student[enrollnmentID].email,
-            subject: "RTMNU Result In Email Test",
+            to: student[enrollmentID].email,
+            subject: "RTMNU Result In Mail",
             text: "Hello world?",
             html: mail,
         });
 
-        console.log(student[enrollnmentID].email);
+        console.log(student[enrollmentID].email);
         console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
         console.log("Message sent: %s", info.messageId);
     }
     res.send(`<p>${JSON.stringify(data.result[parseInt(sem)])}</p>`)
+}
+
+const updateStudent = (req, res) => {
+    const { enrollmentID } = req.body
+    data.user.student[enrollmentID] = req.body
+    res.send({ success: true, studentData: data.user.student[enrollmentID] })
+}
+
+const getStudent = (req, res) => {
+    const { enrollmentID } = req.body
+    res.send({ success: true, studentData: data.user.student[enrollmentID] })
 }
 
 const getRow = (style, { name, totalmarks, marks }) => {
@@ -95,4 +106,5 @@ const getRow = (style, { name, totalmarks, marks }) => {
     `
 }
 
-module.exports = { studentLogin, adminLogin, result, register, sendMail }
+
+module.exports = { studentLogin, adminLogin, result, register, sendMail, updateStudent, getStudent }
