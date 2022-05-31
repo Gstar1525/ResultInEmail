@@ -3,10 +3,10 @@ const nodemailer = require("nodemailer");
 const sql = require('mssql')
 
 const sqlConfig = {
-    user: "admin",
-    password: "admin",
-    database: "RIM_DB",
-    server: 'DESKTOP-LFQQ70T',
+    user: process.env.db_user,
+    password: process.env.db_password,
+    database: process.env.db_name,
+    server: process.env.db_server,
     options: {
         trustServerCertificate: true,
     }
