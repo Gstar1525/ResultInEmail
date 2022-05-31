@@ -2,7 +2,7 @@ const express = require("express")
 const app = express()
 require("dotenv").config()
 const cors = require("cors")
-const port = 5000
+const port = process.env.port || 5000
 const { studentLogin, adminLogin, result, register, sendMail, getStudent, updateStudent } = require("./controllers.js")
 app.use(cors("*"))
 app.use(express.json());

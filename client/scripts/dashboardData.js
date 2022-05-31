@@ -34,6 +34,5 @@ const update = async (event) => {
         window.location.href = "./Studentdashboard.html";
     } else {
         event.preventDefault();
-        console.log(data);
     }
 }

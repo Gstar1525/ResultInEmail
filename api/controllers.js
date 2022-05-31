@@ -1,30 +1,77 @@
 const data = require("./model.js")
 const nodemailer = require("nodemailer");
+const sql = require('mssql')
 
-const adminLogin = (req, res) => {
+const sqlConfig = {
+    user: "admin",
+    password: "admin",
+    database: "RIM_DB",
+    server: 'DESKTOP-LFQQ70T',
+    options: {
+        trustServerCertificate: true,
+    }
+}
+
+
+const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    auth: {
+        user: process.env.email,
+        pass: process.env.password,
+    },
+});
+
+const query = async (queryString) => {
+    await sql.connect(sqlConfig)
+    const result = await sql.query(queryString);
+    return result
+}
+
+const adminLogin = async (req, res) => {
     const { email, pass } = req.body
-    const user = data.user
-    if (user.admin[email] && user.admin[email].password == pass) {
+    const result = await query(`select * from admin where email='${email}' and password='${pass}'`)
+    const credentials = result.recordset[0]
+    if (credentials) {
         res.json({ message: `Authenticated`, result: true })
     } else {
         res.send({ message: 'No user found', result: false })
     }
+
 }
 
-const studentLogin = (req, res) => {
+const studentLogin = async (req, res) => {
     const { enrollmentID, pass } = req.body
-    const user = data.user
-    if (user.student[enrollmentID] && user.student[enrollmentID].password == pass) {
+    const result = await query(`select * from student where enrollmentID='${enrollmentID}' and password='${pass}'`)
+    const credentials = result.recordset[0]
+    if (credentials) {
         res.json({ message: `Authenticated`, result: true })
     } else {
         res.send({ message: 'No user found', result: false })
     }
 }
 
-const register = (req, res) => {
-    const { enrollmentID } = req.body
-    data.user.student[enrollmentID] = req.body
-    res.send({ success: true, enrollmentID: data.user.student[enrollmentID].email })
+const register = async (req, res) => {
+    const { enrollmentID, email, password, name, semester, year } = req.body
+    const result = await query(`insert into student values('${enrollmentID}', '${email}', '${password}', '${name}', '${semester}', '${year}')`)
+    console.log(result);
+
+    const info = await transporter.sendMail({
+        from: process.env.email,
+        to: email,
+        subject: "RTMNU RIM Verify Account",
+        text: "Hello world?",
+        html: `
+        <h3>Click on the below link to verify your account.</h3>
+        <a href="http://localhost:8080/Studentdashboard.html">Click here to verify.</a>
+        `,
+    });
+
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+    console.log("Message sent: %s", info.messageId);
+
+    res.send({ success: true, enrollmentID: email })
 }
 
 const result = (_, res) => {
@@ -33,36 +80,27 @@ const result = (_, res) => {
 
 const sendMail = async (req, res) => {
     const { sem } = req.body
-    let { result, user } = data
-    const { student } = user
+    const ro = await query(`select * from student where semester='${sem}'`);
+    const students = ro.recordset
+    const results = data.result[parseInt(sem)]
 
-    result = result[parseInt(sem)]
-
-    let transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 587,
-        secure: false,
-        auth: {
-            user: process.env.email,
-            pass: process.env.password,
-        },
-    });
-
-    for (const [enrollmentID, rslt] of Object.entries(result)) {
-
+    students.forEach(async (student) => {
+        const { enrollmentID, email } = student
         const style = `style="border: 2px black solid; padding: 8px;"`
+
         let rows = `
-        <tr ${style}>
-        <th ${style}>Subject</th>
-        <th ${style}>Total Marks</th>
-        <th ${style}>Marks</th>
-        </tr>
+            <tr ${style}>
+            <th ${style}>Subject</th>
+            <th ${style}>Total Marks</th>
+            <th ${style}>Marks</th>
+            </tr>
         `
-        rslt.forEach(row => {
+
+        results[enrollmentID].forEach(row => {
             rows += getRow(style, row)
         });
 
-        const mail = `
+        const mailContent = `
             <table style="border-collapse: collapse; text-align: center;">
             <tbody>
             ${rows}
@@ -70,30 +108,32 @@ const sendMail = async (req, res) => {
             </table>
         `
 
-        let info = await transporter.sendMail({
-            from: 'gstar1525@gmail.com',
-            to: student[enrollmentID].email,
-            subject: "RTMNU Result In Mail",
+        const info = await transporter.sendMail({
+            from: process.env.email,
+            to: email,
+            subject: "RTMNU RIM New 3",
             text: "Hello world?",
-            html: mail,
+            html: mailContent,
         });
 
-        console.log(student[enrollmentID].email);
-        console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-        console.log("Message sent: %s", info.messageId);
-    }
-    res.send(`<p>${JSON.stringify(data.result[parseInt(sem)])}</p>`)
+        console.log("Sent to " + email);
+        console.log("Message Id: %s", info.messageId);
+    });
+
+    res.send({ success: true, results });
 }
 
-const updateStudent = (req, res) => {
-    const { enrollmentID } = req.body
-    data.user.student[enrollmentID] = req.body
-    res.send({ success: true, studentData: data.user.student[enrollmentID] })
+const updateStudent = async (req, res) => {
+    const { enrollmentID, email, password, name, semester, year } = req.body
+    const result = await query(`update student set email='${email}', password='${password}', name='${name}', semester='${semester}', year='${year}' where enrollmentID='${enrollmentID}'`)
+    res.send({ success: true })
 }
 
-const getStudent = (req, res) => {
+const getStudent = async (req, res) => {
     const { enrollmentID } = req.body
-    res.send({ success: true, studentData: data.user.student[enrollmentID] })
+    const result = await query(`select * from student where enrollmentID='${enrollmentID}'`)
+    const credentials = result.recordset[0]
+    res.send({ success: true, studentData: credentials })
 }
 
 const getRow = (style, { name, totalmarks, marks }) => {
@@ -101,7 +141,7 @@ const getRow = (style, { name, totalmarks, marks }) => {
         <tr ${style}>
             <td ${style}>${name}</td>
             <td ${style}>${totalmarks}</td>
-            <td ${style}>${marks}</td>\
+            <td ${style}>${marks}</td>
         </tr>
     `
 }

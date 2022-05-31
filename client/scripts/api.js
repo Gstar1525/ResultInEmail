@@ -84,8 +84,10 @@ const getResultData = async () => {
         const status = row.cells[1]
         const sendBtn = row.cells[2].childNodes[1]
 
-        sendBtn.addEventListener("click", async () => {
-            sendResult(sem)
+        sendBtn.addEventListener("click", async (event) => {
+            status.innerText = "Sending";
+            const sent = await sendResult(sem)
+            status.innerText = "Declared (Sent)";
         });
 
         status.innerText = "Declared";
