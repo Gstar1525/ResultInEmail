@@ -5,10 +5,12 @@ const sql = require('mssql')
 const sqlConfig = {
     user: process.env.db_user,
     password: process.env.db_password,
+    port: 1433,
     database: process.env.db_name,
     server: process.env.db_server,
     options: {
         trustServerCertificate: true,
+        instanceName: "SQLEXPRESS"
     }
 }
 
