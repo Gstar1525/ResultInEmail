@@ -1,13 +1,23 @@
 .StudentDash {
- width: 50%;
- height: 40vh;
+ width: 60%;
+ height: fit-content;
+ padding: 30px;
  background-color: rgb(191, 123, 123);
+ border: 2px solid black;
  display: flex;
  align-items: center;
  justify-content: center;
+ margin: auto;
+ margin-top: 5%;
 }
 
 input {
  width: 70vh;
  height: 30%;
+ margin-bottom: 10px;
+}
+
+header {
+    display: flex;
+    justify-content: flex-end;
 }

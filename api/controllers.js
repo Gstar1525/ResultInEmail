@@ -10,7 +10,7 @@ const sqlConfig = {
     server: process.env.db_server,
     options: {
         trustServerCertificate: true,
-        instanceName: "SQLEXPRESS"
+        // instanceName: "SQLEXPRESS"
     }
 }
 
@@ -86,6 +86,7 @@ const sendMail = async (req, res) => {
     const students = ro.recordset
     const results = data.result[parseInt(sem)]
 
+
     students.forEach(async (student) => {
         const { enrollmentID, email } = student
         const style = `style="border: 2px black solid; padding: 8px;"`
@@ -98,28 +99,56 @@ const sendMail = async (req, res) => {
             </tr>
         `
 
-        results[enrollmentID].forEach(row => {
-            rows += getRow(style, row)
-        });
+        // results[enrollmentID].forEach(row => {
+        //     rows += getRow(style, row)
+        // });
 
-        const mailContent = `
-            <table style="border-collapse: collapse; text-align: center;">
-            <tbody>
-            ${rows}
-            </tbody>
-            </table>
-        `
+        // const mailContent = `
+        //     <table style="border-collapse: collapse; text-align: center;">
+        //     <tbody>
+        //     ${rows}
+        //     </tbody>
+        //     </table>
+        // `
 
-        const info = await transporter.sendMail({
-            from: process.env.email,
-            to: email,
-            subject: "RTMNU RIM New 3",
-            text: "Hello world?",
-            html: mailContent,
-        });
+        // const info = await transporter.sendMail({
+        //     from: process.env.email,
+        //     to: email,
+        //     subject: "RTMNU RIM New 3",
+        //     text: "Hello world?",
+        //     html: mailContent,
+        // });
 
-        console.log("Sent to " + email);
-        console.log("Message Id: %s", info.messageId);
+        // console.log("Sent to " + email);
+        // console.log("Message Id: %s", info.messageId);
+
+
+        if (results[enrollmentID]) {
+            results[enrollmentID].forEach(row => {
+                rows += getRow(style, row)
+            });
+
+            const mailContent = `
+                <table style="border-collapse: collapse; text-align: center;">
+                <tbody>
+                ${rows}
+                </tbody>
+                </table>
+            `
+
+            const info = await transporter.sendMail({
+                from: process.env.email,
+                to: email,
+                subject: "RTMNU RIM New 3",
+                text: "Hello world?",
+                html: mailContent,
+            });
+
+            console.log("Sent to " + email + " - " + enrollmentID);
+            // console.log("Message Id: %s", info.messageId);
+        } else {
+            console.log("Not Sent to " + email + " - " + enrollmentID + " (Result not found)");
+        }
     });
 
     res.send({ success: true, results });

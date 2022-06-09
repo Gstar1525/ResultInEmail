@@ -10,12 +10,13 @@
 </head>
 
 <body>
-
+    <header><button class="logout-btn" onclick="window.location.href = 'index.html'">Logout</button></header>
     <div class="StudentDash">
         <form method="post" name="studentDetails" onsubmit="update(event)">
             <h2>Student Dashboard</h2>
             <input name="name" type="text" class="input-box" placeholder="Name" required><br>
-            <input readonly name="enrollmentID" type="text" class="input-box" placeholder="Enrollment Number" required><br>
+            <input readonly name="enrollmentID" type="text" class="input-box" placeholder="Enrollment Number"
+                required><br>
             <input name="email" type="email" class="input-box" placeholder="Email" required><br>
             <input name="password" type="password" class="input-box" placeholder="Password" required><br>
             <input name="semester" type="text" class="input-box" placeholder="Semester" required><br>
