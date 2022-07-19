@@ -1,5 +1,7 @@
 # Result In Email
 
+Get the university Result in email. Due to huge amount of traffic when university results get declare can slow down the website hence using the email students can get their results instantly when they are declared.
+
 ## Steps to run project in development mode 
 <br>
 
